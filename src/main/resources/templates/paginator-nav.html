@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+	<nav th:fragment="paginator">
+		<ul class="pagination justify-content-center"> 
+			
+			<li class="page-item" th:class="${page.first ? 'page-item disabled' : 'page-item'}">
+				<a class="page-link" th:if="${page.first}">&laquo;</a>
+				<a class="page-link" th:if="${not page.first}" th:href="@{${page.url}(page = 0)}">&laquo;</a>
+			</li>
+			
+			<li class="page-item" th:class="${not page.hasPrevious ? 'page-item disabled' : 'page-item'}">
+				<a class="page-link" th:if="${not page.hasPrevious}"> &lt; </a>
+				<a class="page-link" th:if="${page.hasPrevious}" th:href="@{${page.url}(page = ${page.paginaActual - 2 })}">&lt;</a>
+			</li>
+			
+			<li class="page-item" th:each="item : ${page.paginas}" th:class="${item.actual ? 'page-item active' : 'page-item'}">
+				<a class="page-link" th:if="${item.actual}" th:text="${item.numero}"></a>
+				<a class="page-link" th:if="${not item.actual}" th:href="@{${page.url}(page=${item.numero - 1})}" th:text="${item.numero}"></a>
+			</li>
+			
+			<li class="page-item" th:class="${not page.hasNext ? 'page-item disabled' : 'page-item'}">
+				<a class="page-link" th:if="${not page.hasNext}">&gt;</a>
+				<a class="page-link" th:if="${page.hasNext}" th:href="@{${page.url}(page = ${page.paginaActual})}">&gt;</a>
+			</li>
+			
+			<li class="page-item" th:class="${page.last ? 'page-item disabled' : 'page-item'}">
+				<a class="page-link" th:if="${page.last}">&raquo;</a>
+				<a class="page-link" th:if="${not page.last}" th:href="@{${page.url}(page = ${page.totalPaginas - 1})}">&raquo;</a>
+			</li>
+		</ul>
+	</nav>
+
+	<!-- PAGINACION CENTRADA DE BOOTSTRAP 
+	<nav aria-label="Page navigation example">
+		<ul class="pagination justify-content-center">
+			<li class="page-item disabled"><a class="page-link" href="#"
+				tabindex="-1" aria-disabled="true">Previous</a></li>
+			<li class="page-item"><a class="page-link" href="#">1</a></li>
+			<li class="page-item"><a class="page-link" href="#">2</a></li>
+			<li class="page-item"><a class="page-link" href="#">3</a></li>
+			<li class="page-item"><a class="page-link" href="#">Next</a></li>
+		</ul>
+	</nav>
+-->
+</body>
+</html>
