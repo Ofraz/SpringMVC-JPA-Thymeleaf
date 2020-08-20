@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+	
+	 <div class="col-sm-6 col-5 mx-auto mt-5">
+		<div class="card">
+			<div class="card-header d-flex justify-content-between">
+				<a class="btn btn-sm btn-light" th:href="@{'/ver/' + ${factura.cliente.id}}">&laquo;volver</a>
+				<h5 class="text-center" th:text="${titulo}"></h5>
+				<p>   </p>
+				
+			</div>
+			<div class="card-body">
+				<div class="card-title text-right mt-0">
+					<p class="my-0 mx-1 font-weight-bold" th:text="${factura.cliente}"></p>
+					<p class="my-0 mx-1 " th:text="${factura.cliente.email}"></p>
+				</div>
+								
+				<div class="table-responsive mt-2">
+					<table class="table border rounded-lg">
+						<thead>
+							<tr >
+								<td colspan="2" class="list-group-item-success" th:text="'Datos de la factura'"></td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<th th:text="'Folio:'"></th>
+								<td class="text-right" th:text="${factura.id}"></td>
+							</tr>
+							<tr>
+								<th th:text="'Descripcion:'"></th>
+								<td class="text-right" th:text="${factura.descripcion}"></td>
+							</tr>
+							<tr>
+								<th th:text="'Fecha:'"></th>
+								<td class="text-right" th:text="${factura.createAt}"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				
+				<div class="table-responsive rounded-lg">
+					<table class="table table-hover border border-secondary mt-1">
+						<thead class="bg-secondary">
+							<tr class="text-white">
+								<th>Producto</th>
+								<th>Precio</th>
+								<th>Cantidad</th>
+								<th>Total</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="linea: ${factura.items}">
+								<td th:text="${linea.producto.nombre}"></td>
+								<td class="text-right" th:text="${linea.producto.precio}"></td>
+								<td class="text-center" th:text="${linea.cantidad}"></td>
+								<td class="text-right" th:text="${linea.calcularImporte()}"></td>
+							</tr>
+							<tr class="table-secondary">
+								<th th:text="'TOTAL'"></th>
+								<td colspan="3" class="text-right font-weight-bolder" th:text="${factura.total}"></td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="card border-info" >
+						<div class="m-2">
+							<h5 class="card-title font-weight-bold">Observaciones</h5>
+							<p class="card-text" th:text="${factura.observacion}" th:if="${not #strings.isEmpty(factura.observacion)}"></p>
+							<p class="card-title text-center" th:if="${#strings.isEmpty(factura.observacion)}">** SIN OBSERVACIONES **</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+<section th:replace="layout/layout :: scripts"></section>
+</body>
+</html>

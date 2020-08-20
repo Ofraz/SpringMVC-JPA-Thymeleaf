@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title th:text="${titulo}"></title>
-<link rel="stylesheet"
-	th:href="@{/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/css/jquery-ui.min.css}">
 </head>
 <body>
 	<header th:fragment="header">
@@ -26,7 +26,7 @@
 		</nav>
 		
 		<div class="alert alert-success" th:if="${success != null}" th:text="${success}"></div>
-		<div class="alert alert-danger" th:if="${danger != null}" th:text="${danger}"></div>
+		<div class="alert alert-danger" th:if="${error != null}" th:text="${error}"></div>
 		<div class="alert alert-warning" th:if="${warning != null}" th:text="${warning}"></div>
 		<div class="alert alert-info" th:if="${info != null}" th:text="${info}"></div>
 		
@@ -41,5 +41,6 @@
 	<script th:src="@{/js/jquery.min.js}"></script>
 	<script th:src="@{/js/popper.min.js}"></script>
 	<script th:src="@{/js/bootstrap.min.js}"></script>
+	<script th:src="@{/js/jquery-ui.min.js}"></script>
 </section>
 </html>

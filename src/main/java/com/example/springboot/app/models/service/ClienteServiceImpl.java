@@ -9,13 +9,22 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.springboot.app.models.dao.IClienteDaoCrudRepo;
+import com.example.springboot.app.models.dao.IFacturaDao;
+import com.example.springboot.app.models.dao.IProductoDao;
 import com.example.springboot.app.models.entity.Cliente;
+import com.example.springboot.app.models.entity.Factura;
+import com.example.springboot.app.models.entity.Producto;
 
 @Service
 public class ClienteServiceImpl implements IClienteService {
 
 	@Autowired
 	private IClienteDaoCrudRepo clienteDao;
+	
+	@Autowired
+	private IProductoDao productoDao;
+	
+	@Autowired IFacturaDao facturaDao;
 	
 	@Override
 	@Transactional(readOnly = true)
@@ -38,6 +47,11 @@ public class ClienteServiceImpl implements IClienteService {
 	}
 
 	@Override
+	public Cliente fetchByIdWithFacturas(Long id) {
+		return clienteDao.fetchByIdWithFacturas(id);
+	}
+	
+	@Override
 	@Transactional
 	public void delete(Long id) {
 		//clienteDao.delete(id); 				CON CRUD CREADO
@@ -50,4 +64,40 @@ public class ClienteServiceImpl implements IClienteService {
 		return clienteDao.findAll(pageable);
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public List<Producto> findByNombre(String term) {
+		return productoDao.findByNombreLikeIgnoreCase("%"+ term + "%");
+	}
+
+	@Override
+	@Transactional
+	public void saveFactura(Factura factura) {
+		facturaDao.save(factura);		
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Producto findProductoById(Long id) {
+		return productoDao.findById(id).orElse(null);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Factura findFacturaById(Long id) {
+		
+		return facturaDao.findById(id).orElse(null);
+	}
+
+	@Override
+	@Transactional
+	public void deleteFactura(Long id) {
+		facturaDao.deleteById(id);		
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Factura fetchByIdWithClienteWithItemFacturaWithProducto(Long id) {
+		return facturaDao.fetchByIdWithClienteWithItemFacturaWithProducto(id);
+	}
 }
